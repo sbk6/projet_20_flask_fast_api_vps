@@ -1,7 +1,7 @@
-# Guide de Déploiement — A à Z
+# Guide de Déploiement : A à Z
 
-> **VPS :** Hostinger KVM4 — Ubuntu 22.04 — 4 vCPU — 16 GB RAM — 160 GB NVMe  
-> **Projet :** ShopAPI (Projet 20 ESGIS)
+> **VPS :** Hostinger KVM4 - Ubuntu 22.04 - 4 vCPU - 16 GB RAM - 160 GB NVMe  
+> **Projet :** ShopAPI (Projet 20 )
 
 ---
 
@@ -31,7 +31,7 @@
 ┌─────────────────────────────────────────────────────┐
 │              CE QUI VA TOURNER SUR LE VPS            │
 │                                                       │
-│  Nginx (port 80/443) — géré par le système Ubuntu    │
+│  Nginx (port 80/443) - géré par le système Ubuntu    │
 │       ↓ proxy vers                                   │
 │  Docker Compose :                                     │
 │    ├── api         (FastAPI + Gunicorn) → port 8000   │
@@ -39,8 +39,8 @@
 │    ├── prometheus  (métriques)          → port 9090   │
 │    └── grafana     (dashboards)         → port 3000   │
 │                                                       │
-│  Certbot (cron) — renouvellement SSL automatique      │
-│  Cron backup — sauvegarde PostgreSQL quotidienne      │
+│  Certbot (cron) : renouvellement SSL automatique      │
+│  Cron backup : sauvegarde PostgreSQL quotidienne      │
 └─────────────────────────────────────────────────────┘
 ```
 
@@ -770,7 +770,7 @@ nano /opt/shopapi/alert.sh
 
 BOT_TOKEN="VOTRE_BOT_TOKEN"
 CHAT_ID="VOTRE_CHAT_ID"
-MESSAGE="🚨 ShopAPI ALERTE : $1"
+MESSAGE=" ShopAPI ALERTE : $1"
 
 curl -s -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" \
   -d "chat_id=$CHAT_ID&text=$MESSAGE"
@@ -838,7 +838,7 @@ TEMPS ESTIMÉ PAR ÉTAPE :
 
 ### Checklist PRA détaillée
 
-#### Phase 1 — Nouveau VPS (0-5 min)
+#### Phase 1 : Nouveau VPS (0-5 min)
 ```bash
 # 1. Créer un nouveau VPS Hostinger KVM4 Ubuntu 22.04
 # 2. Mettre à jour le DNS DuckDNS avec la nouvelle IP
@@ -854,7 +854,7 @@ ufw allow 22,80,443/tcp
 ufw enable
 ```
 
-#### Phase 2 — Docker + Nginx (5-13 min)
+#### Phase 2 : Docker + Nginx (5-13 min)
 ```bash
 # Installer Docker (commandes groupées pour aller vite)
 curl -fsSL https://get.docker.com | sudo sh
@@ -864,7 +864,7 @@ sudo usermod -aG docker deploy
 sudo apt install -y nginx certbot python3-certbot-nginx
 ```
 
-#### Phase 3 — Application (13-25 min)
+#### Phase 3 : Application (13-25 min)
 ```bash
 # Cloner le repo
 sudo mkdir -p /opt/shopapi && sudo chown deploy:deploy /opt/shopapi
@@ -886,7 +886,7 @@ docker compose -f deploy/docker-compose.prod.yml up -d
 zcat backups/shopapi_DERNIERE.sql.gz | docker compose -f deploy/docker-compose.prod.yml exec -T db psql -U shopuser ecommerce_db
 ```
 
-#### Phase 4 — HTTPS + vérification (25-30 min)
+#### Phase 4 : HTTPS + vérification (25-30 min)
 ```bash
 # Config Nginx
 cp deploy/nginx/shopapi.conf /etc/nginx/sites-available/shopapi
@@ -1056,4 +1056,4 @@ docker image prune -af           # Supprimer toutes les images non utilisées
 
 ---
 
-*Guide de déploiement — Projet 20 ESGIS Master 1 — 2025-2026*
+*Guide de déploiement : Projet 20 ESGIS Master 1 - 2025-2026*
