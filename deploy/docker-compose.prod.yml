@@ -1,25 +1,18 @@
 version: "3.9"
 
 # docker-compose de PRODUCTION (utilisé sur le VPS)
-# Différences avec docker-compose.yml de dev :
-# - Pas d'exposition directe du port 8000 (Nginx fait le proxy)
-# - Variables d'environnement depuis ../.env (racine du projet)
-# - Restart policy : unless-stopped
-# - Logs limités pour éviter de saturer le disque
+# Toutes les variables sensibles viennent du fichier ../.env (racine du projet)
+# Aucune substitution ${} dans ce fichier pour éviter les warnings Docker Compose
 
 services:
   db:
     image: postgres:16-alpine
     restart: unless-stopped
     env_file: ../.env
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -32,11 +25,8 @@ services:
     image: ghcr.io/sbk6/projet_20_flask_fast_api_vps:latest
     restart: unless-stopped
     env_file: ../.env
-    environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
-      ENVIRONMENT: production
     ports:
-      - "127.0.0.1:8000:8000"   # Seulement accessible en local (Nginx fait le proxy)
+      - "127.0.0.1:8000:8000"
     depends_on:
       db:
         condition: service_healthy
@@ -58,7 +48,7 @@ services:
       - ../monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus_data:/prometheus
     ports:
-      - "127.0.0.1:9090:9090"   # Accessible seulement en local (tunnel SSH pour admin)
+      - "127.0.0.1:9090:9090"
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.retention.time=30d'
@@ -72,14 +62,13 @@ services:
     restart: unless-stopped
     env_file: ../.env
     environment:
-      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
       GF_USERS_ALLOW_SIGN_UP: "false"
       GF_SERVER_ROOT_URL: https://shop.haramarket.com/grafana/
     volumes:
       - grafana_data:/var/lib/grafana
       - ../monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
     ports:
-      - "127.0.0.1:3000:3000"   # Accessible seulement en local
+      - "127.0.0.1:3000:3000"
     depends_on:
       - prometheus
     logging:
