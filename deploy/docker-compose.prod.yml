@@ -22,6 +22,9 @@ services:
         max-file: "3"
 
   api:
+    build:
+      context: ..
+      dockerfile: Dockerfile
     image: ghcr.io/sbk6/projet_20_flask_fast_api_vps:latest
     restart: unless-stopped
     env_file: ../.env
