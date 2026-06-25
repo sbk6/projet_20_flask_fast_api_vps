@@ -3,7 +3,7 @@ version: "3.9"
 # docker-compose de PRODUCTION (utilisé sur le VPS)
 # Différences avec docker-compose.yml de dev :
 # - Pas d'exposition directe du port 8000 (Nginx fait le proxy)
-# - Variables d'environnement depuis un fichier .env
+# - Variables d'environnement depuis ../.env (racine du projet)
 # - Restart policy : unless-stopped
 # - Logs limités pour éviter de saturer le disque
 
@@ -11,7 +11,7 @@ services:
   db:
     image: postgres:16-alpine
     restart: unless-stopped
-    env_file: .env
+    env_file: ../.env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -31,7 +31,7 @@ services:
   api:
     image: ghcr.io/sbk6/projet_20_flask_fast_api_vps:latest
     restart: unless-stopped
-    env_file: .env
+    env_file: ../.env
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       ENVIRONMENT: production
@@ -55,7 +55,7 @@ services:
     image: prom/prometheus:latest
     restart: unless-stopped
     volumes:
-      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ../monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus_data:/prometheus
     ports:
       - "127.0.0.1:9090:9090"   # Accessible seulement en local (tunnel SSH pour admin)
@@ -70,13 +70,14 @@ services:
   grafana:
     image: grafana/grafana:latest
     restart: unless-stopped
+    env_file: ../.env
     environment:
       GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
       GF_USERS_ALLOW_SIGN_UP: "false"
-      GF_SERVER_ROOT_URL: https://VOTRE_DOMAINE.duckdns.org/grafana/
+      GF_SERVER_ROOT_URL: https://shop.haramarket.com/grafana/
     volumes:
       - grafana_data:/var/lib/grafana
-      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ../monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
     ports:
       - "127.0.0.1:3000:3000"   # Accessible seulement en local
     depends_on:
