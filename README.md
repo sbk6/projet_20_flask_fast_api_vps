@@ -1,8 +1,8 @@
 # ShopAPI : API E-commerce FastAPI
 
 > **Projet 20 : Déploiement complet en production sur VPS**  
-> Cours : APIs Web pour le Machine Learning (Flask & FastAPI) — ESGIS Master 1  
-> Auteur(s) : Groupe sbk6
+> Cours : APIs Web pour le Machine Learning (Flask & FastAPI) - ESGIS Master 1  
+> Auteur(s) : Groupe 20
 
 ---
 
@@ -79,7 +79,7 @@ Internet
 
 ## Explication de la stack technique
 
-### FastAPI — Le framework web
+### FastAPI : Le framework web
 
 **Qu'est-ce que c'est ?**  
 FastAPI est un framework Python moderne pour créer des APIs REST. Il est basé sur les **annotations de type** Python et génère automatiquement une documentation interactive.
@@ -190,8 +190,8 @@ Un JWT est un "jeton" numérique signé qui prouve l'identité d'un utilisateur.
 
 **Qu'est-ce que c'est ?**
 
-- **Uvicorn** : serveur ASGI (Asynchronous Server Gateway Interface) — il exécute FastAPI
-- **Gunicorn** : gestionnaire de processus — il démarre plusieurs instances d'Uvicorn en parallèle
+- **Uvicorn** : serveur ASGI (Asynchronous Server Gateway Interface) - il exécute FastAPI
+- **Gunicorn** : gestionnaire de processus - il démarre plusieurs instances d'Uvicorn en parallèle
 
 **Pourquoi pas juste `uvicorn app.main:app` ?**
 
