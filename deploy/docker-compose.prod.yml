@@ -1,5 +1,3 @@
-version: "3.9"
-
 # docker-compose de PRODUCTION (utilisé sur le VPS)
 # Toutes les variables sensibles viennent du fichier ../.env (racine du projet)
 # Aucune substitution ${} dans ce fichier pour éviter les warnings Docker Compose
