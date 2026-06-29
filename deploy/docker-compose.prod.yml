@@ -64,7 +64,6 @@ services:
     env_file: ../.env
     environment:
       GF_USERS_ALLOW_SIGN_UP: "false"
-      GF_SERVER_ROOT_URL: https://shop.haramarket.com/grafana/
     volumes:
       - grafana_data:/var/lib/grafana
       - ../monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
