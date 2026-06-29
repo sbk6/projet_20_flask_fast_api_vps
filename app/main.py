@@ -22,26 +22,26 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="ShopAPI — API E-commerce",
     description="""
-## Bienvenue sur ShopAPI 🛒
+## Bienvenue sur ShopAPI
 
 API REST complète pour une plateforme e-commerce, développée avec **FastAPI** et **PostgreSQL**.
 
 ### Fonctionnalités principales
 
-- 🔐 **Authentification JWT** — Inscription, connexion, refresh token
-- 📦 **Catalogue Produits** — CRUD complet avec filtres avancés (catégorie, prix, stock, recherche)
-- 🗂️ **Catégories** — Organisation hiérarchique des produits
-- 🛒 **Panier** — Gestion complète du panier d'achat
-- 📋 **Commandes** — Création, suivi et annulation des commandes
-- ⭐ **Avis & Notes** — Système d'avis clients (1-5 étoiles)
-- 📊 **Monitoring** — Métriques Prometheus sur `/metrics`
+- **Authentification JWT** — Inscription, connexion, refresh token
+- **Catalogue Produits** — CRUD complet avec filtres avancés (catégorie, prix, stock, recherche)
+- **Catégories** — Organisation hiérarchique des produits
+- **Panier** — Gestion complète du panier d'achat
+- **Commandes** — Création, suivi et annulation des commandes
+- **Avis & Notes** — Système d'avis clients (note de 1 à 5)
+- **Monitoring** — Métriques Prometheus sur `/metrics`
 
 ### Authentification
 
 L'API utilise des **JWT Bearer tokens**. Pour accéder aux endpoints protégés :
 1. Créez un compte via `POST /auth/register`
 2. Connectez-vous via `POST /auth/login` pour obtenir votre token
-3. Cliquez sur **Authorize** (🔒) et entrez : `Bearer <votre_token>`
+3. Cliquez sur **Authorize** et entrez : `Bearer <votre_token>`
 
 ### Rôles utilisateurs
 

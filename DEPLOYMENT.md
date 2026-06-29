@@ -745,7 +745,7 @@ docker compose -f /opt/shopapi/deploy/docker-compose.prod.yml start api
 1. Grafana → **Alerting** → **Contact points** → New
 2. Type : **Webhook**
 3. URL : l'URL du webhook Discord
-4. Template du message : `{ "content": "🚨 ALERTE ShopAPI : {{ .Message }}" }`
+4. Template du message : `{ "content": "ALERTE ShopAPI : {{ .Message }}" }`
 
 **Créer une règle d'alerte :**
 1. Grafana → **Alerting** → **Alert rules** → New
