@@ -28,13 +28,13 @@ API REST complète pour une plateforme e-commerce, développée avec **FastAPI**
 
 ### Fonctionnalités principales
 
-- **Authentification JWT** — Inscription, connexion, refresh token
-- **Catalogue Produits** — CRUD complet avec filtres avancés (catégorie, prix, stock, recherche)
-- **Catégories** — Organisation hiérarchique des produits
-- **Panier** — Gestion complète du panier d'achat
-- **Commandes** — Création, suivi et annulation des commandes
-- **Avis & Notes** — Système d'avis clients (note de 1 à 5)
-- **Monitoring** — Métriques Prometheus sur `/metrics`
+- **Authentification JWT** : Inscription, connexion, refresh token
+- **Catalogue Produits** : CRUD complet avec filtres avancés (catégorie, prix, stock, recherche)
+- **Catégories** : Organisation hiérarchique des produits
+- **Panier** : Gestion complète du panier d'achat
+- **Commandes** : Création, suivi et annulation des commandes
+- **Avis & Notes** : Système d'avis clients (note de 1 à 5)
+- **Monitoring** : Métriques Prometheus sur `/metrics`
 
 ### Authentification
 
