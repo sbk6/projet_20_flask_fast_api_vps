@@ -132,6 +132,10 @@ jobs:
             # Redémarrer les services avec la nouvelle image
             docker compose -f deploy/docker-compose.prod.yml up -d --no-deps api
 
+            # Appliquer les migrations Alembic
+            echo "=== Migrations base de données ==="
+            docker compose -f deploy/docker-compose.prod.yml exec -T api alembic upgrade head
+
             # Attendre que l'API réponde (healthcheck)
             echo "=== Vérification du healthcheck ==="
             RETRIES=0
