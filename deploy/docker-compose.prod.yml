@@ -81,17 +81,15 @@ services:
   grafana:
     image: grafana/grafana:latest
     restart: unless-stopped
-    env_file:
-      - ../.env
-      - ../grafana.secrets
+    env_file: ../.env
     environment:
       GF_USERS_ALLOW_SIGN_UP: "false"
       GF_ALERTING_ENABLED: "true"
       GF_UNIFIED_ALERTING_ENABLED: "true"
-      # Les variables GF_SMTP_* sont dans .env et passées au conteneur via env_file
     volumes:
       - grafana_data:/var/lib/grafana
       - ../monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ../grafana_smtp.ini:/etc/grafana/grafana.d/smtp.ini:ro
     ports:
       - "127.0.0.1:3000:3000"
     depends_on:

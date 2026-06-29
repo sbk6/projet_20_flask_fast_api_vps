@@ -1,5 +1,6 @@
 .env
 grafana.secrets
+grafana_smtp.ini
 __pycache__/
 *.pyc
 *.pyo
