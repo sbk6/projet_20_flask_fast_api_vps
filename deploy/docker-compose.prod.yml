@@ -89,7 +89,6 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
       - ../monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
-      - ../grafana_smtp.ini:/etc/grafana/grafana.d/smtp.ini:ro
     ports:
       - "127.0.0.1:3000:3000"
     depends_on:
