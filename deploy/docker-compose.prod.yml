@@ -86,13 +86,7 @@ services:
       GF_USERS_ALLOW_SIGN_UP: "false"
       GF_ALERTING_ENABLED: "true"
       GF_UNIFIED_ALERTING_ENABLED: "true"
-      GF_SMTP_ENABLED: "true"
-      GF_SMTP_HOST: "smtp.gmail.com:587"
-      GF_SMTP_USER: "${ALERT_EMAIL_FROM}"
-      GF_SMTP_PASSWORD: "${ALERT_EMAIL_PASSWORD}"
-      GF_SMTP_FROM_ADDRESS: "${ALERT_EMAIL_FROM}"
-      GF_SMTP_FROM_NAME: "ShopAPI Monitoring"
-      GF_SMTP_STARTTLS_POLICY: "MandatoryStartTLS"
+      # Les variables GF_SMTP_* sont dans .env et passées au conteneur via env_file
     volumes:
       - grafana_data:/var/lib/grafana
       - ../monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
