@@ -1,0 +1,56 @@
+groups:
+  - name: shopapi_alerts
+    rules:
+
+      # Alerte : API indisponible (sonde liveness échoue)
+      - alert: ShopAPIDown
+        expr: up{job="shopapi"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "ShopAPI est indisponible"
+          description: "L'API ShopAPI ne répond plus depuis plus d'1 minute. Vérifier le conteneur Docker."
+
+      # Alerte : CPU > 90% pendant 5 minutes
+      - alert: HighCPUUsage
+        expr: 100 - (avg(irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 90
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "CPU élevé sur le VPS"
+          description: "L'utilisation CPU dépasse 90% depuis plus de 5 minutes (valeur actuelle : {{ $value | printf \"%.1f\" }}%)."
+
+      # Alerte : Mémoire RAM > 90%
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 90
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "RAM élevée sur le VPS"
+          description: "L'utilisation RAM dépasse 90% depuis plus de 5 minutes (valeur actuelle : {{ $value | printf \"%.1f\" }}%)."
+
+      # Alerte : Disque > 85%
+      - alert: DiskSpaceLow
+        expr: (1 - (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"})) * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Espace disque faible"
+          description: "Le disque est rempli à {{ $value | printf \"%.1f\" }}%. Nettoyer les anciennes images Docker ou logs."
+
+      # Alerte : Taux d'erreurs HTTP 5xx > 5%
+      - alert: HighErrorRate
+        expr: |
+          sum(rate(http_requests_total{status_code=~"5.."}[5m]))
+          /
+          sum(rate(http_requests_total[5m])) * 100 > 5
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Taux d'erreurs HTTP 5xx élevé"
+          description: "Plus de 5% des requêtes retournent une erreur 5xx depuis 2 minutes."
