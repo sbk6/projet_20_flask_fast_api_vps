@@ -20,7 +20,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
-    title="ShopAPI — API E-commerce",
+    title="API E-commerce",
     description="""
 ## Bienvenue sur ShopAPI
 
