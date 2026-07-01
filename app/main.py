@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="API E-commerce",
     description="""
-## Bienvenue sur ShopAPI ecommerce
+## Bienvenue sur ShopAPI ecommerce public
 
 API REST complète pour une plateforme e-commerce, développée avec **FastAPI** et **PostgreSQL**.
 
