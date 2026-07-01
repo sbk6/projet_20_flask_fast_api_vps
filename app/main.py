@@ -88,17 +88,27 @@ app.add_middleware(
 async def prometheus_middleware(request: Request, call_next):
     ACTIVE_REQUESTS.inc()
     start = time.time()
-    response = await call_next(request)
+    status_code = 500
+    try:
+        response = await call_next(request)
+        status_code = response.status_code
+    except Exception:
+        duration = time.time() - start
+        endpoint = request.url.path
+        REQUEST_COUNT.labels(method=request.method, endpoint=endpoint, status_code="500").inc()
+        REQUEST_LATENCY.labels(method=request.method, endpoint=endpoint).observe(duration)
+        ACTIVE_REQUESTS.dec()
+        raise
     duration = time.time() - start
     endpoint = request.url.path
     REQUEST_COUNT.labels(
         method=request.method,
         endpoint=endpoint,
-        status_code=response.status_code,
+        status_code=status_code,
     ).inc()
     REQUEST_LATENCY.labels(method=request.method, endpoint=endpoint).observe(duration)
     ACTIVE_REQUESTS.dec()
-    logger.info(f"method={request.method} path={endpoint} status={response.status_code} duration={duration:.3f}s")
+    logger.info(f"method={request.method} path={endpoint} status={status_code} duration={duration:.3f}s")
     return response
 
 
